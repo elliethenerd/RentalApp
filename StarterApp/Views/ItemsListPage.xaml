@@ -19,6 +19,9 @@
         <Button
             Text="Create New Item"
             Clicked="GoToCreateItemPage" />
+        <Button
+            Text="View Rentals"
+            Clicked="GoToRentalsPage" />
 
         <CollectionView ItemsSource="{Binding Items}">
 

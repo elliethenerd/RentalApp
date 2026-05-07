@@ -28,4 +28,10 @@ public partial class ItemsListPage : ContentPage
                 new CreateItemViewModel(
                     Handler.MauiContext.Services.GetService<IItemService>())));
     }
+
+    private async void GoToRentalsPage(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(
+            Handler.MauiContext.Services.GetService<RentalsPage>());
+    }
 }
