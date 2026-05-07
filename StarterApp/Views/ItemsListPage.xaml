@@ -16,6 +16,9 @@
         <Button
             Text="Load Items"
             Command="{Binding LoadItemsCommand}" />
+        <Button
+            Text="Create New Item"
+            Clicked="GoToCreateItemPage" />
 
         <CollectionView ItemsSource="{Binding Items}">
 
