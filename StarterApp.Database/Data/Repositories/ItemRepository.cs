@@ -1,49 +1,29 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using StarterApp.Database.Models;
 
-namespace StarterApp.Database.Data.Repositories
+namespace StarterApp.Database.Data.Repositories;
+
+public class ItemRepository : IItemRepository
 {
-    public class ItemRepository : IItemRepository
+    private static readonly List<Item> _items = new();
+
+    public async Task<List<Item>> GetAllAsync()
     {
-        private readonly AppDbContext _context;
+        return await Task.FromResult(_items);
+    }
 
-        public ItemRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<Item?> GetByIdAsync(int id)
+    {
+        var item = _items.FirstOrDefault(i => i.Id == id);
 
-        public async Task<List<Item>> GetAllAsync()
-        {
-            return await _context.Items.ToListAsync();
-        }
+        return await Task.FromResult(item);
+    }
 
-        public async Task<Item> GetByIdAsync(int id)
-        {
-            return await _context.Items.FindAsync(id);
-        }
+    public async Task AddAsync(Item item)
+    {
+        item.Id = _items.Count + 1;
 
-        public async Task AddAsync(Item item)
-        {
-            _context.Items.Add(item);
-            await _context.SaveChangesAsync();
-        }
+        _items.Add(item);
 
-        public async Task UpdateAsync(Item item)
-        {
-            _context.Items.Update(item);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var item = await _context.Items.FindAsync(id);
-            if (item != null)
-            {
-                _context.Items.Remove(item);
-                await _context.SaveChangesAsync();
-            }
-        }
+        await Task.CompletedTask;
     }
 }

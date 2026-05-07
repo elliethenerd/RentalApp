@@ -11,6 +11,16 @@ public partial class ItemsListPage : ContentPage
         BindingContext = viewModel;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is ItemsListViewModel vm)
+        {
+            await vm.LoadItemsCommand.ExecuteAsync(null);
+        }
+    }
+
     private async void GoToCreateItemPage(object sender, EventArgs e)
     {
         await Navigation.PushAsync(

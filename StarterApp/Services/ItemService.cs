@@ -1,36 +1,29 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using StarterApp.Database.Models;
 using StarterApp.Database.Data.Repositories;
+using StarterApp.Database.Models;
 
-namespace StarterApp.Services
+namespace StarterApp.Services;
+
+public class ItemService : IItemService
 {
-    public class ItemService : IItemService
+    private readonly IItemRepository _repository;
+
+    public ItemService(IItemRepository repository)
     {
-        private readonly IItemRepository _itemRepository;
+        _repository = repository;
+    }
 
-        public ItemService(IItemRepository itemRepository)
-        {
-            _itemRepository = itemRepository;
-        }
+    public async Task<List<Item>> GetAllItemsAsync()
+    {
+        return await _repository.GetAllAsync();
+    }
 
-        public async Task<List<Item>> GetAllItemsAsync()
-        {
-            return await _itemRepository.GetAllAsync();
-        }
+    public async Task<Item?> GetItemByIdAsync(int id)
+    {
+        return await _repository.GetByIdAsync(id);
+    }
 
-        public async Task<Item> GetItemByIdAsync(int id)
-        {
-            return await _itemRepository.GetByIdAsync(id);
-        }
-
-        public async Task CreateItemAsync(Item item)
-        {
-            // basic business logic (you can mention this in your report 👀)
-            if (item.DailyRate < 0)
-                throw new System.Exception("Daily rate must be positive");
-
-            await _itemRepository.AddAsync(item);
-        }
+    public async Task CreateItemAsync(Item item)
+    {
+        await _repository.AddAsync(item);
     }
 }

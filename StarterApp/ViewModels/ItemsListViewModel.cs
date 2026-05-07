@@ -1,33 +1,47 @@
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 
-namespace StarterApp.ViewModels
+namespace StarterApp.ViewModels;
+
+public partial class ItemsListViewModel : ObservableObject
 {
-    public partial class ItemsListViewModel : ObservableObject
+    private readonly IItemService _itemService;
+    private readonly IRentalService _rentalService;
+
+    public ObservableCollection<Item> Items { get; set; } = new();
+
+    public ItemsListViewModel(
+        IItemService itemService,
+        IRentalService rentalService)
     {
-        private readonly IItemService _itemService;
+        _itemService = itemService;
+        _rentalService = rentalService;
+    }
 
-        public ObservableCollection<Item> Items { get; set; } = new();
+    [RelayCommand]
+    private async Task LoadItems()
+    {
+        var items = await _itemService.GetAllItemsAsync();
 
-        public ItemsListViewModel(IItemService itemService)
+        Items.Clear();
+
+        foreach (var item in items)
         {
-            _itemService = itemService;
+            Items.Add(item);
         }
+    }
 
-        [RelayCommand]
-        public async Task LoadItems()
-        {
-            var items = await _itemService.GetAllItemsAsync();
+    [RelayCommand]
+    private async Task RequestRental(Item item)
+    {
+        await _rentalService.CreateRentalRequest(item);
 
-            Items.Clear();
-            foreach (var item in items)
-            {
-                Items.Add(item);
-            }
-        }
+        await Shell.Current.DisplayAlert(
+            "Success",
+            "Rental requested",
+            "OK");
     }
 }

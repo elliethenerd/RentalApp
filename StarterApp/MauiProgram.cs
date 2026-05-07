@@ -48,6 +48,10 @@ public static class MauiProgram
         builder.Services.AddTransient<ItemsListPage>();
         builder.Services.AddTransient<CreateItemViewModel>();
         builder.Services.AddTransient<CreateItemPage>();
+        builder.Services.AddTransient<ItemsListViewModel>();
+        builder.Services.AddTransient<CreateItemViewModel>();
+        builder.Services.AddSingleton<IRentalRepository, RentalRepository>();
+        builder.Services.AddSingleton<IRentalService, RentalService>();
 
 #if DEBUG
         builder.Logging.AddDebug();

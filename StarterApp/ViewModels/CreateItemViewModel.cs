@@ -3,39 +3,39 @@ using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 
-namespace StarterApp.ViewModels
+namespace StarterApp.ViewModels;
+
+public partial class CreateItemViewModel : ObservableObject
 {
-    public partial class CreateItemViewModel : ObservableObject
+    private readonly IItemService _itemService;
+
+    [ObservableProperty]
+    private string title;
+
+    [ObservableProperty]
+    private string description;
+
+    [ObservableProperty]
+    private decimal dailyRate;
+
+    public CreateItemViewModel(IItemService itemService)
     {
-        private readonly IItemService _itemService;
+        _itemService = itemService;
+    }
 
-        [ObservableProperty]
-        private string title;
-
-        [ObservableProperty]
-        private string description;
-
-        [ObservableProperty]
-        private decimal dailyRate;
-
-        public CreateItemViewModel(IItemService itemService)
+    [RelayCommand]
+    private async Task SaveItem()
+    {
+        var item = new Item
         {
-            _itemService = itemService;
-        }
+            Title = Title,
+            Description = Description,
+            DailyRate = DailyRate,
+            Category = "General"
+        };
 
-        [RelayCommand]
-        public async Task SaveItem()
-        {
-            var item = new Item
-            {
-                Title = Title,
-                Description = Description,
-                DailyRate = DailyRate
-            };
+        await _itemService.CreateItemAsync(item);
 
-            await _itemService.CreateItemAsync(item);
-
-            await Shell.Current.DisplayAlert("Success", "Item created!", "OK");
-        }
+        await Shell.Current.GoToAsync("..");
     }
 }
