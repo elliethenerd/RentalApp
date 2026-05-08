@@ -32,7 +32,9 @@
                                 Text="{Binding BorrowerName}" />
 
                             <Label
-                                Text="{Binding Status}" />
+                                Text="{Binding Status}"
+                                FontAttributes="Bold"
+                                FontSize="16"/>
 
                             <HorizontalStackLayout Spacing="10">
 
