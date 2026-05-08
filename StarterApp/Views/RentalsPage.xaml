@@ -37,14 +37,16 @@
                             <HorizontalStackLayout Spacing="10">
 
                                 <Button
-                                    Text="Approve"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ApproveRentalCommand}"
-                                    CommandParameter="{Binding .}" />
+                                Text="Approve"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ApproveRentalCommand}"
+                                CommandParameter="{Binding .}"
+                                IsEnabled="{Binding IsPending}" />
 
-                                <Button
-                                    Text="Reject"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RejectRentalCommand}"
-                                    CommandParameter="{Binding .}" />
+                            <Button
+                                Text="Reject"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RejectRentalCommand}"
+                                CommandParameter="{Binding .}"
+                                IsEnabled="{Binding IsPending}" />
 
                             </HorizontalStackLayout>
 

@@ -11,4 +11,6 @@ public class Rental
     public string BorrowerName { get; set; }
 
     public string Status { get; set; }
+
+    public bool IsPending => Status == "Requested";
 }
